@@ -71,7 +71,8 @@
     padding:20px 22px; font-size:17.5px; color:#5A4650; line-height:1.9;
   }
   .intro-box strong{color:var(--pink-deep);}
-  .intro-tabs{display:flex; gap:8px; margin-bottom:12px;}
+  .intro-tabs{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:12px;}
+  .intro-tabs .intro-tab-btn{flex:1 1 auto; min-width:calc(50% - 4px);}
   .intro-tab-btn{
     flex:1; border:1.5px solid var(--line); background:#fff; color:var(--ink);
     border-radius:999px; padding:10px 6px; font-size:13px; font-weight:700;
@@ -87,7 +88,10 @@
   .inline-link-btn:hover{background:var(--pink-deep); color:#fff;}
 
   section.region-picker{padding:22px 0 6px;}
-  .sec-title{font-size:15.5px; font-weight:800; margin:0 0 12px; display:flex; align-items:center; gap:6px;}
+  .sec-title{
+    font-family:'Jalnan',-apple-system,sans-serif; font-weight:normal;
+    font-size:clamp(16px,3.8vw,19px); margin:0 0 12px; display:flex; align-items:center; gap:6px;
+  }
   .sido-grid{
     display:grid; grid-template-columns:repeat(3,1fr); gap:8px;
   }
@@ -121,7 +125,7 @@
     border-radius:var(--radius); padding:16px 20px; margin-bottom:16px;
     border:1.5px solid #FFC6D6; background:var(--pink-bg);
   }
-  .result-head h2{font-size:18px; margin:0 0 4px;}
+  .result-head h2{font-family:'Jalnan',-apple-system,sans-serif; font-weight:normal; font-size:clamp(18px,4.2vw,21px); margin:0 0 4px;}
   .result-head p{font-size:12.5px; color:#8A5B6B; margin:0;}
 
   .cat-block{
@@ -130,7 +134,8 @@
   }
   .cat-block + .cat-block{margin-top:0;}
   .cat-head{
-    display:flex; align-items:baseline; gap:8px; font-size:14.5px; font-weight:800;
+    display:flex; align-items:baseline; gap:8px;
+    font-family:'Jalnan',-apple-system,sans-serif; font-weight:normal; font-size:16px;
     margin-bottom:4px; padding-bottom:8px; border-bottom:1px dashed var(--line);
   }
   .cat-head .cnt{font-size:12px; font-weight:700; color:var(--sub); margin-left:auto;}
@@ -192,6 +197,7 @@
       <button type="button" class="intro-tab-btn active" data-tab="greeting" onclick="showIntroTab('greeting')">👋 인사말</button>
       <button type="button" class="intro-tab-btn" data-tab="tips" onclick="showIntroTab('tips')">💰 절약 비법</button>
       <button type="button" class="intro-tab-btn" data-tab="help" onclick="showIntroTab('help')">🔍 못 찾겠어요?</button>
+      <button type="button" class="intro-tab-btn" data-tab="region" onclick="showIntroTab('region')">📍 지역 찾기</button>
     </div>
     <div class="intro-box" id="intro-greeting">
       안녕하세요 :) <strong>투빈맘</strong>이에요 💖<br><br>
@@ -211,23 +217,25 @@
     </div>
   </div>
 
-  <section class="region-picker">
-    <p class="sec-title">1️⃣ 시/도를 골라주세요</p>
-    <div class="sido-grid" id="sidoGrid"></div>
+  <div id="intro-region" style="display:none;">
+    <section class="region-picker">
+      <p class="sec-title">1️⃣ 시/도를 골라주세요</p>
+      <div class="sido-grid" id="sidoGrid"></div>
 
-    <div class="sigg-panel" id="siggPanel">
-      <p class="sec-title" style="margin-top:18px;">2️⃣ 시/군/구를 골라주세요</p>
-      <div class="sigg-grid" id="siggGrid"></div>
-    </div>
-  </section>
+      <div class="sigg-panel" id="siggPanel">
+        <p class="sec-title" style="margin-top:18px;">2️⃣ 시/군/구를 골라주세요</p>
+        <div class="sigg-grid" id="siggGrid"></div>
+      </div>
+    </section>
 
-  <section class="result" id="resultSection" style="display:none;">
-    <div class="result-head">
-      <h2 id="resultTitle"></h2>
-      <p>🏃 체육센터 · 🎨 청소년센터 · 🏘️ 주민센터 순서로 보여드려요</p>
-    </div>
-    <div id="resultBody"></div>
-  </section>
+    <section class="result" id="resultSection" style="display:none;">
+      <div class="result-head">
+        <h2 id="resultTitle"></h2>
+        <p>🏃 체육센터 · 🎨 청소년센터 · 🏘️ 주민센터 순서로 보여드려요</p>
+      </div>
+      <div id="resultBody"></div>
+    </section>
+  </div>
 </div>
 
 <footer>
@@ -361,7 +369,7 @@ function catBlock(label, list, truncate){
 }
 
 function showIntroTab(name){
-  ['greeting','tips','help'].forEach(n => {
+  ['greeting','tips','help','region'].forEach(n => {
     document.getElementById('intro-' + n).style.display = (n === name) ? 'block' : 'none';
   });
   document.querySelectorAll('.intro-tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === name));
