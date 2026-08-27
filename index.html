@@ -71,6 +71,14 @@
     padding:20px 22px; font-size:17.5px; color:#5A4650; line-height:1.9;
   }
   .intro-box strong{color:var(--pink-deep);}
+  .intro-tabs{display:flex; gap:8px; margin-bottom:12px;}
+  .intro-tab-btn{
+    flex:1; border:1.5px solid var(--line); background:#fff; color:var(--ink);
+    border-radius:999px; padding:10px 6px; font-size:13px; font-weight:700;
+    cursor:pointer; font-family:inherit; text-align:center; transition:all .15s;
+  }
+  .intro-tab-btn:hover{background:var(--pink-bg); border-color:var(--pink-light);}
+  .intro-tab-btn.active{background:var(--pink); border-color:var(--pink); color:#fff;}
   .inline-link-btn{
     display:inline-block; text-decoration:none; color:var(--pink-deep); font-weight:800;
     border:2px solid var(--pink-deep); border-radius:999px; padding:2px 12px; margin:0 2px;
@@ -180,13 +188,21 @@
 
 <div class="wrap">
   <div class="top-intro">
-    <div class="intro-box">
+    <div class="intro-tabs">
+      <button type="button" class="intro-tab-btn active" data-tab="greeting" onclick="showIntroTab('greeting')">👋 인사말</button>
+      <button type="button" class="intro-tab-btn" data-tab="tips" onclick="showIntroTab('tips')">💰 절약 비법</button>
+      <button type="button" class="intro-tab-btn" data-tab="help" onclick="showIntroTab('help')">🔍 못 찾겠어요?</button>
+    </div>
+    <div class="intro-box" id="intro-greeting">
       안녕하세요 :) <strong>투빈맘</strong>이에요 💖<br><br>
       학원 대신 <strong>동네 구민체육센터·청소년센터·주민센터</strong>를 이용하면 예체능 사교육비를 많이 아낄 수 있는데, 의외로 "우리 동네에 뭐가 있는지 몰라서" 못 보내는 분들이 많더라구요.<br><br>
-      💰 <strong>사교육비 아끼는 비법</strong><br><br>
+      아래에서 지역을 골라보시면, 그 동네에 있는 공공기관들을 바로 확인할 수 있어요. <strong>프로그램 상세는 각 기관 홈페이지에서 직접 확인</strong>해주세요 🙏
+    </div>
+    <div class="intro-box" id="intro-tips" style="display:none;">
       1️⃣ 학교 방과후 활동을 잘 이용해요. 생각보다 학교 방과후 프로그램 중에 괜찮은 게 많고, 학교 마치고 바로 하고 오니까 라이딩(차량 픽업)도 따로 필요 없어서 쏠쏠해요. 게다가 연말정산도 가능해서 좋아요!<br><br>
-      2️⃣ 구민센터처럼 구·시에서 운영하는 프로그램은 <strong>다자녀 할인·중복 수강 할인</strong>이 있는 곳이 많아요. 저희도 중복 수강 + 다자녀 할인 받아서 훨씬 저렴하게 다니고 있어요. 일반 예체능 학원도 자녀가 둘 다니면 학원비를 1만원 전후로 할인해주는 곳이 많아서, 의외로 저렴해지는 예체능도 있답니다.<br><br>
-      아래에서 지역을 골라보시면, 그 동네에 있는 공공기관들을 바로 확인할 수 있어요. <strong>프로그램 상세는 각 기관 홈페이지에서 직접 확인</strong>해주세요 🙏<br><br>
+      2️⃣ 구민센터처럼 구·시에서 운영하는 프로그램은 <strong>다자녀 할인·중복 수강 할인</strong>이 있는 곳이 많아요. 저희도 중복 수강 + 다자녀 할인 받아서 훨씬 저렴하게 다니고 있어요. 일반 예체능 학원도 자녀가 둘 다니면 학원비를 1만원 전후로 할인해주는 곳이 많아서, 의외로 저렴해지는 예체능도 있답니다.
+    </div>
+    <div class="intro-box" id="intro-help" style="display:none;">
       📍 서울의 경우, 각 구청 구민체육센터에서 다양한 수업들을 운영하고 있으니, 사시는 지역에 맞춰 검색해보시면 됩니다 :) (ex: oo구민체육센터)<br><br>
       📍 서울 외 지역은 체육센터, 청소년센터, 문화센터, 주민자치센터 등 공공기관에서 운영하는 프로그램을 확인해보시면 됩니다!<br><br>
       ✔️ 의외로 <strong>'몰라서' 안 보내는 분들</strong>도 많던데, 이번 기회에 꼭 한 번 확인해보시면 좋을 것 같아요 💖<br><br>
@@ -342,6 +358,13 @@ function catBlock(label, list, truncate){
       <div class="fac-list">${cards}</div>
       ${more}
     </div>`;
+}
+
+function showIntroTab(name){
+  ['greeting','tips','help'].forEach(n => {
+    document.getElementById('intro-' + n).style.display = (n === name) ? 'block' : 'none';
+  });
+  document.querySelectorAll('.intro-tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === name));
 }
 
 function shareKakao(btn){
